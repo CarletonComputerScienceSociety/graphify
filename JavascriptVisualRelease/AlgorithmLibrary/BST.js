@@ -211,7 +211,7 @@ BST.prototype.doFind = function(tree, value)
 	if (tree != null)
 	{
 		this.cmd("SetHighlight", tree.graphicID, 1);
-		if (tree.comparator == value)
+		if (tree.normalizedData == value)
 		{
 			this.cmd("SetText", 0, "Searching for "+value+" : " + value + " = " + value + " (Element found!)");
 			this.cmd("Step");					
@@ -221,7 +221,7 @@ BST.prototype.doFind = function(tree, value)
 		}
 		else
 		{
-			if (tree.comparator > value)
+			if (tree.normalizedData > value)
 			{
 				this.cmd("SetText", 0, "Searching for "+value+" : " + value + " < " + tree.data + " (look to left subtree)");
 				this.cmd("Step");
@@ -300,7 +300,7 @@ BST.prototype.insert = function(elem, tree)
 	this.cmd("SetHighlight", tree.graphicID , 1);
 	this.cmd("SetHighlight", elem.graphicID , 1);
 	
-	if (elem.comparator < tree.comparator)
+	if (elem.normalizedData < tree.normalizedData)
 	{
 		this.cmd("SetText", 0,  elem.data + " < " + tree.data + ".  Looking at left subtree");				
 	}
@@ -312,7 +312,7 @@ BST.prototype.insert = function(elem, tree)
 	this.cmd("SetHighlight", tree.graphicID, 0);
 	this.cmd("SetHighlight", elem.graphicID, 0);
 	
-	if (elem.comparator < tree.comparator)
+	if (elem.normalizedData < tree.normalizedData)
 	{
 		if (tree.left == null)
 		{
@@ -332,7 +332,7 @@ BST.prototype.insert = function(elem, tree)
 			this.insert(elem, tree.left);
 		}
 	}
-	else if(elem.comparator > tree.comparator)
+	else if(elem.normalizedData > tree.normalizedData)
 	{
 		if (tree.right == null)
 		{
@@ -386,11 +386,11 @@ BST.prototype.treeDelete = function(tree, valueToDelete)
 			leftchild = tree.parent.left == tree;
 		}
 		this.cmd("SetHighlight", tree.graphicID, 1);
-		if (valueToDelete < tree.comparator)
+		if (valueToDelete < tree.normalizedData)
 		{	
 			this.cmd("SetText", 0, valueToDelete + " < " + tree.data + ".  Looking at left subtree");				
 		}
-		else if (valueToDelete > tree.comparator)
+		else if (valueToDelete > tree.normalizedData)
 		{
 			this.cmd("SetText",  0, valueToDelete + " > " + tree.data + ".  Looking at right subtree");				
 		}
@@ -401,7 +401,7 @@ BST.prototype.treeDelete = function(tree, valueToDelete)
 		this.cmd("Step");
 		this.cmd("SetHighlight",  tree.graphicID, 0);
 		
-		if (valueToDelete == tree.comparator)
+		if (valueToDelete == tree.normalizedData)
 		{
 			if (tree.left == null && tree.right == null)
 			{
@@ -543,7 +543,7 @@ BST.prototype.treeDelete = function(tree, valueToDelete)
 				
 			}
 		}
-		else if (valueToDelete < tree.comparator)
+		else if (valueToDelete < tree.normalizedData)
 		{
 			if (tree.left != null)
 			{
@@ -640,7 +640,7 @@ BST.prototype.resizeWidths = function(tree)
 function BSTNode(val, id, initialX, initialY)
 {
 	this.data = val;
-	this.comparator = Algorithm.prototype.normalizeNumber(val, 4);
+	this.normalizedData = Algorithm.prototype.normalizeNumber(val, 4);
 	this.x = initialX;
 	this.y = initialY;
 	this.graphicID = id;
