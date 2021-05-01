@@ -217,6 +217,7 @@ BST.prototype.doFind = function(tree, value)
 			this.cmd("Step");					
 			this.cmd("SetText", 0, "Found:"+value);
 			this.cmd("SetHighlight", tree.graphicID, 0);
+			return true;
 		}
 		else
 		{
@@ -256,7 +257,8 @@ BST.prototype.doFind = function(tree, value)
 	{
 		this.cmd("SetText", 0, "Searching for "+value+" : " + "< Empty Tree > (Element not found)");				
 		this.cmd("Step");					
-		this.cmd("SetText", 0, "Searching for "+value+" : " + " (Element not found)");					
+		this.cmd("SetText", 0, "Searching for "+value+" : " + " (Element not found)");
+		return false;					
 	}
 }
 
@@ -265,7 +267,6 @@ BST.prototype.insertElement = function(insertedValue)
 	this.commands = new Array();	
 	this.cmd("SetText", 0, "Inserting "+insertedValue);
 	this.highlightID = this.nextIndex++;
-	
 	if (this.treeRoot == null)
 	{
 		this.cmd("CreateCircle", this.nextIndex, insertedValue,  this.startingX, BST.STARTING_Y);
@@ -331,7 +332,7 @@ BST.prototype.insert = function(elem, tree)
 			this.insert(elem, tree.left);
 		}
 	}
-	else
+	else if(elem.data > tree.data)
 	{
 		if (tree.right == null)
 		{
@@ -352,6 +353,12 @@ BST.prototype.insert = function(elem, tree)
 			this.cmd("Delete", this.highlightID);
 			this.insert(elem, tree.right);
 		}
+	}
+	else{
+		this.cmd("SetText",  0, "Found element, won't insert duplicate");				
+		this.cmd("SetHighlight", elem.graphicID, 0);
+		this.cmd("Delete", elem.graphicID);
+
 	}
 	
 	
