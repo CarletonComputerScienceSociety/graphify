@@ -101,7 +101,7 @@ BST.prototype.insertCallback = function(event)
 {
 	var insertedValue = this.insertField.value;
 	// Get text value
-	insertedValue = this.normalizeNumber(insertedValue, 4);
+	insertedValue = insertedValue.substring(0, 4);
 	if (insertedValue != "")
 	{
 		// set text value
@@ -211,7 +211,7 @@ BST.prototype.doFind = function(tree, value)
 	if (tree != null)
 	{
 		this.cmd("SetHighlight", tree.graphicID, 1);
-		if (tree.data == value)
+		if (tree.comparator == value)
 		{
 			this.cmd("SetText", 0, "Searching for "+value+" : " + value + " = " + value + " (Element found!)");
 			this.cmd("Step");					
@@ -221,7 +221,7 @@ BST.prototype.doFind = function(tree, value)
 		}
 		else
 		{
-			if (tree.data > value)
+			if (tree.comparator > value)
 			{
 				this.cmd("SetText", 0, "Searching for "+value+" : " + value + " < " + tree.data + " (look to left subtree)");
 				this.cmd("Step");
@@ -300,7 +300,7 @@ BST.prototype.insert = function(elem, tree)
 	this.cmd("SetHighlight", tree.graphicID , 1);
 	this.cmd("SetHighlight", elem.graphicID , 1);
 	
-	if (elem.data < tree.data)
+	if (elem.comparator < tree.comparator)
 	{
 		this.cmd("SetText", 0,  elem.data + " < " + tree.data + ".  Looking at left subtree");				
 	}
@@ -312,7 +312,7 @@ BST.prototype.insert = function(elem, tree)
 	this.cmd("SetHighlight", tree.graphicID, 0);
 	this.cmd("SetHighlight", elem.graphicID, 0);
 	
-	if (elem.data < tree.data)
+	if (elem.comparator < tree.comparator)
 	{
 		if (tree.left == null)
 		{
@@ -332,7 +332,7 @@ BST.prototype.insert = function(elem, tree)
 			this.insert(elem, tree.left);
 		}
 	}
-	else if(elem.data > tree.data)
+	else if(elem.comparator > tree.comparator)
 	{
 		if (tree.right == null)
 		{
@@ -358,7 +358,6 @@ BST.prototype.insert = function(elem, tree)
 		this.cmd("SetText",  0, "Found element, won't insert duplicate");				
 		this.cmd("SetHighlight", elem.graphicID, 0);
 		this.cmd("Delete", elem.graphicID);
-
 	}
 	
 	
@@ -387,11 +386,11 @@ BST.prototype.treeDelete = function(tree, valueToDelete)
 			leftchild = tree.parent.left == tree;
 		}
 		this.cmd("SetHighlight", tree.graphicID, 1);
-		if (valueToDelete < tree.data)
+		if (valueToDelete < tree.comparator)
 		{	
 			this.cmd("SetText", 0, valueToDelete + " < " + tree.data + ".  Looking at left subtree");				
 		}
-		else if (valueToDelete > tree.data)
+		else if (valueToDelete > tree.comparator)
 		{
 			this.cmd("SetText",  0, valueToDelete + " > " + tree.data + ".  Looking at right subtree");				
 		}
@@ -402,7 +401,7 @@ BST.prototype.treeDelete = function(tree, valueToDelete)
 		this.cmd("Step");
 		this.cmd("SetHighlight",  tree.graphicID, 0);
 		
-		if (valueToDelete == tree.data)
+		if (valueToDelete == tree.comparator)
 		{
 			if (tree.left == null && tree.right == null)
 			{
@@ -544,7 +543,7 @@ BST.prototype.treeDelete = function(tree, valueToDelete)
 				
 			}
 		}
-		else if (valueToDelete < tree.data)
+		else if (valueToDelete < tree.comparator)
 		{
 			if (tree.left != null)
 			{
@@ -641,6 +640,7 @@ BST.prototype.resizeWidths = function(tree)
 function BSTNode(val, id, initialX, initialY)
 {
 	this.data = val;
+	this.comparator = Algorithm.prototype.normalizeNumber(val, 4);
 	this.x = initialX;
 	this.y = initialY;
 	this.graphicID = id;
