@@ -89,6 +89,8 @@ BST.prototype.addControls =  function()
 	this.findButton.onclick = this.findCallback.bind(this);
 	this.printButton = addControlToAlgorithmBar("Button", "Print");
 	this.printButton.onclick = this.printCallback.bind(this);
+	this.balanceTree = addControlToAlgorithmBar("Button", "Balance");
+	this.balanceTree.onclick = this.balanceCallback.bind(this);
 }
 
 BST.prototype.reset = function()
@@ -126,6 +128,275 @@ BST.prototype.printCallback = function(event)
 {
 	this.implementAction(this.printTree.bind(this),"");						
 }
+
+BST.prototype.balanceCallback = function(event){
+
+}
+
+
+BST.prototype.getHeight = function(tree) 
+{
+	if (tree == null)
+	{
+		return 0;
+	}
+	return tree.height;
+}
+
+BST.prototype.resetHeight = function(tree)
+{
+	if (tree != null)
+	{
+		var newHeight = Math.max(this.getHeight(tree.left), this.getHeight(tree.right)) + 1;
+		if (tree.height != newHeight)
+		{
+			tree.height = Math.max(this.getHeight(tree.left), this.getHeight(tree.right)) + 1
+			this.cmd("SetText",tree.heightLabelID, newHeight);
+//			this.cmd("SetText",tree.heightLabelID, newHeight);
+		}
+	}
+}
+
+
+BST.prototype.singleRotateRight = function(tree)
+{
+	var B = tree;
+	var t3 = B.right;
+	var A = tree.left;
+	var t1 = A.left;
+	var t2 = A.right;
+	
+	this.cmd("SetText", 0, "Single Rotate Right");
+	this.cmd("SetEdgeHighlight", B.graphicID, A.graphicID, 1);
+	this.cmd("Step");
+	
+	
+	if (t2 != null)
+	{
+		this.cmd("Disconnect", A.graphicID, t2.graphicID);																		  
+		this.cmd("Connect", B.graphicID, t2.graphicID, AVL.LINK_COLOR);
+		t2.parent = B;
+	}
+	this.cmd("Disconnect", B.graphicID, A.graphicID);
+	this.cmd("Connect", A.graphicID, B.graphicID, AVL.LINK_COLOR);
+	A.parent = B.parent;
+	if (this.treeRoot == B)
+	{
+		this.treeRoot = A;
+	}
+	else
+	{
+		this.cmd("Disconnect", B.parent.graphicID, B.graphicID, AVL.LINK_COLOR);
+		this.cmd("Connect", B.parent.graphicID, A.graphicID, AVL.LINK_COLOR)
+		if (B.isLeftChild())
+		{
+			B.parent.left = A;
+		}
+		else
+		{
+			B.parent.right = A;
+		}
+	}
+	A.right = B;
+	B.parent = A;
+	B.left = t2;
+	this. resetHeight(B);
+	this. resetHeight(A);
+	this.resizeTree();			
+}
+
+
+
+BST.prototype.singleRotateLeft = function(tree)
+{
+	var A = tree;
+	var B = tree.right;
+	var t1 = A.left;
+	var t2 = B.left;
+	var t3 = B.right;
+	
+	this.cmd("SetText", 0, "Single Rotate Left");
+	this.cmd("SetEdgeHighlight", A.graphicID, B.graphicID, 1);
+	this.cmd("Step");
+	
+	if (t2 != null)
+	{
+		this.cmd("Disconnect", B.graphicID, t2.graphicID);																		  
+		this.cmd("Connect", A.graphicID, t2.graphicID, AVL.LINK_COLOR);
+		t2.parent = A;
+	}
+	this.cmd("Disconnect", A.graphicID, B.graphicID);
+	this.cmd("Connect", B.graphicID, A.graphicID, AVL.LINK_COLOR);
+	B.parent = A.parent;
+	if (this.treeRoot == A)
+	{
+		this.treeRoot = B;
+	}
+	else
+	{
+		this.cmd("Disconnect", A.parent.graphicID, A.graphicID, AVL.LINK_COLOR);
+		this.cmd("Connect", A.parent.graphicID, B.graphicID, AVL.LINK_COLOR)
+		
+		if (A.isLeftChild())
+		{
+			A.parent.left = B;
+		}
+		else
+		{
+			A.parent.right = B;
+		}
+	}
+	B.left = A;
+	A.parent = B;
+	A.right = t2;
+	this. resetHeight(A);
+	this. resetHeight(B);
+	
+	this.resizeTree();			
+}
+
+BST.prototype.doubleRotateRight = function(tree)
+{
+	this.cmd("SetText", 0, "Double Rotate Right");
+	var A = tree.left;
+	var B = tree.left.right;
+	var C = tree;
+	var t1 = A.left;
+	var t2 = B.left;
+	var t3 = B.right;
+	var t4 = C.right;
+	
+	this.cmd("Disconnect", C.graphicID, A.graphicID);
+	this.cmd("Disconnect", A.graphicID, B.graphicID);
+	this.cmd("Connect", C.graphicID, A.graphicID, AVL.HIGHLIGHT_LINK_COLOR);
+	this.cmd("Connect", A.graphicID, B.graphicID, AVL.HIGHLIGHT_LINK_COLOR);
+	this.cmd("Step");
+	
+	if (t2 != null)
+	{
+		this.cmd("Disconnect",B.graphicID, t2.graphicID);
+		t2.parent = A;
+		A.right = t2;
+		this.cmd("Connect", A.graphicID, t2.graphicID, AVL.LINK_COLOR);
+	}
+	if (t3 != null)
+	{
+		this.cmd("Disconnect",B.graphicID, t3.graphicID);
+		t3.parent = C;
+		C.left = t2;
+		this.cmd("Connect", C.graphicID, t3.graphicID, AVL.LINK_COLOR);
+	}
+	if (C.parent == null)
+	{
+		B.parent = null;
+		this.treeRoot = B;
+	}
+	else
+	{
+		this.cmd("Disconnect",C.parent.graphicID, C.graphicID);
+		this.cmd("Connect",C.parent.graphicID, B.graphicID, AVL.LINK_COLOR);
+		if (C.isLeftChild())
+		{
+			C.parent.left = B
+		}
+		else
+		{
+			C.parent.right = B;
+		}
+		B.parent = C.parent;
+		C.parent = B;
+	}
+	this.cmd("Disconnect", C.graphicID, A.graphicID);
+	this.cmd("Disconnect", A.graphicID, B.graphicID);
+	this.cmd("Connect", B.graphicID, A.graphicID, AVL.LINK_COLOR);
+	this.cmd("Connect", B.graphicID, C.graphicID, AVL.LINK_COLOR);
+	B.left = A;
+	A.parent = B;
+	B.right=C;
+	C.parent=B;
+	A.right=t2;
+	C.left = t3;
+	this. resetHeight(A);
+	this. resetHeight(C);
+	this. resetHeight(B);
+	
+	this.resizeTree();
+	
+	
+}
+
+BST.prototype.doubleRotateLeft = function(tree)
+{
+	this.cmd("SetText", 0, "Double Rotate Left");
+	var A = tree;
+	var B = tree.right.left;
+	var C = tree.right;
+	var t1 = A.left;
+	var t2 = B.left;
+	var t3 = B.right;
+	var t4 = C.right;
+	
+	this.cmd("Disconnect", A.graphicID, C.graphicID);
+	this.cmd("Disconnect", C.graphicID, B.graphicID);
+	this.cmd("Connect", A.graphicID, C.graphicID, AVL.HIGHLIGHT_LINK_COLOR);
+	this.cmd("Connect", C.graphicID, B.graphicID, AVL.HIGHLIGHT_LINK_COLOR);
+	this.cmd("Step");
+	
+	if (t2 != null)
+	{
+		this.cmd("Disconnect",B.graphicID, t2.graphicID);
+		t2.parent = A;
+		A.right = t2;
+		this.cmd("Connect", A.graphicID, t2.graphicID, AVL.LINK_COLOR);
+	}
+	if (t3 != null)
+	{
+		this.cmd("Disconnect",B.graphicID, t3.graphicID);
+		t3.parent = C;
+		C.left = t2;
+		this.cmd("Connect", C.graphicID, t3.graphicID, AVL.LINK_COLOR);
+	}
+		
+	
+	if (A.parent == null)
+	{
+		B.parent = null;
+		this.treeRoot = B;
+	}
+	else
+	{
+		this.cmd("Disconnect",A.parent.graphicID, A.graphicID);
+		this.cmd("Connect",A.parent.graphicID, B.graphicID, AVL.LINK_COLOR);
+		if (A.isLeftChild())
+		{
+			A.parent.left = B
+		}
+		else
+		{
+			A.parent.right = B;
+		}
+		B.parent = A.parent;
+		A.parent = B;
+	}
+	this.cmd("Disconnect", A.graphicID, C.graphicID);
+	this.cmd("Disconnect", C.graphicID, B.graphicID);
+	this.cmd("Connect", B.graphicID, A.graphicID, AVL.LINK_COLOR);
+	this.cmd("Connect", B.graphicID, C.graphicID, AVL.LINK_COLOR);
+	B.left = A;
+	A.parent = B;
+	B.right=C;
+	C.parent=B;
+	A.right=t2;
+	C.left = t3;
+	this. resetHeight(A);
+	this. resetHeight(C);
+	this. resetHeight(B);
+	
+	this.resizeTree();
+	
+	
+}
+
 
 BST.prototype.printTree = function(unused)
 {
@@ -275,6 +546,7 @@ BST.prototype.insertElement = function(insertedValue)
 		this.cmd("Step");				
 		this.treeRoot = new BSTNode(insertedValue, this.nextIndex, this.startingX, BST.STARTING_Y)
 		this.nextIndex += 1;
+		this.treeRoot.height = 1;
 	}
 	else
 	{
@@ -286,6 +558,7 @@ BST.prototype.insertElement = function(insertedValue)
 		
 		
 		this.nextIndex += 1;
+		insertElem.height = 1;
 		this.cmd("SetHighlight", insertElem.graphicID, 1);
 		this.insert(insertElem, this.treeRoot)
 		this.resizeTree();				
@@ -322,6 +595,10 @@ BST.prototype.insert = function(elem, tree)
 			tree.left=elem;
 			elem.parent = tree;
 			this.cmd("Connect", tree.graphicID, elem.graphicID, BST.LINK_COLOR);
+			if (tree.height < tree.left.height + 1)
+			{
+				tree.height = tree.left.height + 1;					
+			}
 		}
 		else
 		{
@@ -330,6 +607,10 @@ BST.prototype.insert = function(elem, tree)
 			this.cmd("Step");
 			this.cmd("Delete", this.highlightID);
 			this.insert(elem, tree.left);
+			if (tree.height < tree.left.height + 1)
+			{
+				tree.height = tree.left.height + 1
+			}
 		}
 	}
 	else if(elem.normalizedData > tree.normalizedData)
@@ -344,6 +625,10 @@ BST.prototype.insert = function(elem, tree)
 			elem.x = tree.x + BST.WIDTH_DELTA/2;
 			elem.y = tree.y + BST.HEIGHT_DELTA
 			this.cmd("Move", elem.graphicID, elem.x, elem.y);
+			if (tree.height < tree.right.height + 1)
+			{
+				tree.height = tree.right.height + 1;					
+			}
 		}
 		else
 		{
@@ -352,6 +637,10 @@ BST.prototype.insert = function(elem, tree)
 			this.cmd("Step");
 			this.cmd("Delete", this.highlightID);
 			this.insert(elem, tree.right);
+			if (tree.height < tree.right.height + 1)
+			{
+				tree.height = tree.right.height + 1
+			}
 		}
 	}
 	else{
@@ -541,7 +830,7 @@ BST.prototype.treeDelete = function(tree, valueToDelete)
 					this.resizeTree();
 				}
 				
-			}
+			}	
 		}
 		else if (valueToDelete < tree.normalizedData)
 		{
@@ -568,7 +857,7 @@ BST.prototype.treeDelete = function(tree, valueToDelete)
 	}
 	else
 	{
-		this.cmd("SetText", 0, "Elemet "+valueToDelete+" not found, could not delete");
+		this.cmd("SetText", 0, "Element "+valueToDelete+" not found, could not delete");
 	}
 	
 }
@@ -647,6 +936,8 @@ function BSTNode(val, id, initialX, initialY)
 	this.left = null;
 	this.right = null;
 	this.parent = null;
+	this.heightLabelID= hid;
+	this.height = 1;
 }
 
 BST.prototype.disableUI = function(event)
