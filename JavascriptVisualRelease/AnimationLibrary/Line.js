@@ -106,7 +106,7 @@ function Line(n1, n2, color, cv, d, weight, anchorIndex)
 	}
 	   
 	   
-	this.drawArrow = function(pensize, color, context)
+	this.drawArrow = function(pensize, color, context, camera)
 	{		
 		context.strokeStyle = color;
 		context.fillStyle = color;
@@ -126,8 +126,13 @@ function Line(n1, n2, color, cv, d, weight, anchorIndex)
 		var controlY = midY + deltaX * this.curve;
 
 		context.beginPath();
-		context.moveTo(fromPos[0], fromPos[1]);
-		context.quadraticCurveTo(controlX, controlY, toPos[0], toPos[1]);
+		context.moveTo(fromPos[0] + camera.x, fromPos[1] + camera.y);
+		context.quadraticCurveTo(
+			controlX + camera.x,
+			controlY + camera.y,
+			toPos[0] + camera.x,
+			toPos[1] + camera.y
+		);
 		context.stroke();
 		//context.closePath();
 			
@@ -151,7 +156,11 @@ function Line(n1, n2, color, cv, d, weight, anchorIndex)
 		context.textAlign = 'center';
 		context.font         = '10px sans-serif';
 		context.textBaseline   = 'middle'; 
-		context.fillText(this.edgeLabel, labelPosX, labelPosY);
+		context.fillText(
+			this.edgeLabel,
+			labelPosX + camera.x,
+			labelPosY + camera.y
+		);
 
 		if (this.directed)
 		{
@@ -165,10 +174,16 @@ function Line(n1, n2, color, cv, d, weight, anchorIndex)
 				yVec = yVec / len;
 				
 				context.beginPath();
-				context.moveTo(toPos[0], toPos[1]);
-				context.lineTo(toPos[0] + xVec*this.arrowHeight - yVec*this.arrowWidth, toPos[1] + yVec*this.arrowHeight + xVec*this.arrowWidth);
-				context.lineTo(toPos[0] + xVec*this.arrowHeight + yVec*this.arrowWidth, toPos[1] + yVec*this.arrowHeight - xVec*this.arrowWidth);
-				context.lineTo(toPos[0], toPos[1]);
+				context.moveTo(toPos[0] + camera.x, toPos[1] + camera.y);
+				context.lineTo(
+					toPos[0] + xVec*this.arrowHeight - yVec*this.arrowWidth + camera.x,
+					toPos[1] + yVec*this.arrowHeight + xVec*this.arrowWidth + camera.y
+				);
+				context.lineTo(
+					toPos[0] + xVec*this.arrowHeight + yVec*this.arrowWidth + camera.x,
+					toPos[1] + yVec*this.arrowHeight - xVec*this.arrowWidth + camera.y
+				);
+				context.lineTo(toPos[0] + camera.x, toPos[1] + camera.y);
 				context.closePath();
 				context.stroke();
 				context.fill();
@@ -179,7 +194,7 @@ function Line(n1, n2, color, cv, d, weight, anchorIndex)
 	   }
 	   
 	   
-	   this.draw = function(ctx)
+	   this.draw = function(ctx, camera)
 	   {
 		   if (!this.addedToScene)
 		   {
@@ -188,8 +203,8 @@ function Line(n1, n2, color, cv, d, weight, anchorIndex)
 		   ctx.globalAlpha = this.alpha;
 
 			if (this.highlighted)
-				this.drawArrow(this.highlightDiff, "#FF0000", ctx);
-			this.drawArrow(1, this.edgeColor, ctx);
+				this.drawArrow(this.highlightDiff, "#FF0000", ctx, camera);
+			this.drawArrow(1, this.edgeColor, ctx, camera);
 	   }
 	   
 	   

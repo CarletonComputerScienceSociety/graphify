@@ -42,13 +42,20 @@ HighlightCircle.prototype = new AnimatedObject();
 HighlightCircle.prototype.constructor = HighlightCircle;
 
 
-HighlightCircle.prototype.draw = function(ctx)
+HighlightCircle.prototype.draw = function(ctx, camera)
 {
 	ctx.globalAlpha = this.alpha;
 	ctx.strokeStyle = this.foregroundColor;
 	ctx.lineWidth = this.thickness;
 	ctx.beginPath();
-	ctx.arc(this.x,this.y,this.radius,0,Math.PI*2, true);
+	ctx.arc(
+		this.x + camera.x,
+		this.y + camera.y,
+		this.radius,
+		0,
+		Math.PI*2,
+		true
+	);
 	ctx.closePath();
 	ctx.stroke();
 }

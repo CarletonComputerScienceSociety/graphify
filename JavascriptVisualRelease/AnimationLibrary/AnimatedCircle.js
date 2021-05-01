@@ -84,7 +84,7 @@ AnimatedCircle.prototype.setHighlightIndex = function(hlIndex)
 
 }
 
-AnimatedCircle.prototype.draw = function(ctx)
+AnimatedCircle.prototype.draw = function(ctx, camera)
 {
 	ctx.globalAlpha = this.alpha;
 
@@ -92,7 +92,7 @@ AnimatedCircle.prototype.draw = function(ctx)
 	{
 		ctx.fillStyle = "#ff0000";
 		ctx.beginPath();
-		ctx.arc(this.x,this.y,this.radius + this.highlightDiff,0,Math.PI*2, true);
+		ctx.arc(this.x + camera.x,this.y + camera.y,this.radius + this.highlightDiff,0,Math.PI*2, true);
 		ctx.closePath();
 		ctx.fill();
 	}
@@ -102,7 +102,7 @@ AnimatedCircle.prototype.draw = function(ctx)
 	ctx.strokeStyle = this.foregroundColor;
 	ctx.lineWidth = 1;
 	ctx.beginPath();
-	ctx.arc(this.x,this.y,this.radius,0,Math.PI*2, true);
+	ctx.arc(this.x + camera.x,this.y + camera.y,this.radius,0,Math.PI*2, true);
 	ctx.closePath();
 	ctx.fill();
 	ctx.stroke();
@@ -129,22 +129,22 @@ AnimatedCircle.prototype.draw = function(ctx)
                     var leftStr = this.label.substring(0, this.highlightIndex);
                     var highlightStr = this.label.substring(this.highlightIndex, this.highlightIndex + 1)
                     var rightStr = this.label.substring(this.highlightIndex + 1)
-                    ctx.fillText(leftStr, startingXForHighlight, this.y)
+                    ctx.fillText(leftStr, startingXForHighlight + camera.x, this.y + camera.y)
  	            ctx.strokeStyle = "#FF0000";
 	            ctx.fillStyle = "#FF0000";
-                    ctx.fillText(highlightStr, startingXForHighlight + this.leftWidth, this.y)
+                    ctx.fillText(highlightStr, startingXForHighlight + this.leftWidth + camera.x, this.y + camera.y)
 
 
 	            ctx.strokeStyle = this.labelColor;
 	            ctx.fillStyle = this.labelColor;
-                    ctx.fillText(rightStr, startingXForHighlight + this.leftWidth + this.centerWidth, this.y)
+                    ctx.fillText(rightStr, startingXForHighlight + this.leftWidth + this.centerWidth + camera.x, this.y + camera.y)
 
 
 
               }
               else
               {
-	    	   ctx.fillText(this.label, this.x, this.y); 		
+	    	   ctx.fillText(this.label, this.x + camera.x, this.y + camera.y); 		
               }
 	}
 	else if (strList.length % 2 == 0)
@@ -153,20 +153,19 @@ AnimatedCircle.prototype.draw = function(ctx)
 		var mid = strList.length / 2;
 		for (i = 0; i < strList.length / 2; i++)
 		{
-			ctx.fillText(strList[mid - i - 1], this.x, this.y - (i + 0.5) * 12);
-			ctx.fillText(strList[mid + i], this.x, this.y + (i + 0.5) * 12);
-			
+			ctx.fillText(strList[mid - i - 1], this.x + camera.x, (this.y - (i + 0.5) * 12)  + camera.y);
+			ctx.fillText(strList[mid + i], this.x + camera.x, (this.y + (i + 0.5) * 12) + camera.y);
 		}		
 	}
 	else
 	{
 		var mid = (strList.length - 1) / 2;
 		var i;
-		ctx.fillText(strList[mid], this.x, this.y);
+		ctx.fillText(strList[mid], this.x + camera.x, this.y + camera.y);
 		for (i = 0; i < mid; i++)
 		{
-			ctx.fillText(strList[mid - (i + 1)], this.x, this.y - (i + 1) * 12);			
-			ctx.fillText(strList[mid + (i + 1)], this.x, this.y + (i + 1) * 12);			
+			ctx.fillText(strList[mid - (i + 1)], this.x + camera.x, (this.y - (i + 1) * 12) + camera.y);			
+			ctx.fillText(strList[mid + (i + 1)], this.x + camera.x, (this.y + (i + 1) * 12) + camera.y);			
 		}
 		
 	}

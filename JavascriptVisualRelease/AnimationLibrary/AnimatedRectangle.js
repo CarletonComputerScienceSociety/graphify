@@ -189,7 +189,7 @@ AnimatedRectangle.prototype.getHeight = function()
 
 
 // TODO:  Fix me!
-AnimatedRectangle.prototype.draw = function(context)
+AnimatedRectangle.prototype.draw = function(context, camera)
 {
 	if (!this.addedToScene)
 	{
@@ -244,11 +244,26 @@ AnimatedRectangle.prototype.draw = function(context)
 		context.fillStyle = "#ff0000";
 		
 		context.beginPath();
-		context.moveTo(startX - this.highlightDiff,startY- this.highlightDiff);
-		context.lineTo(startX+this.w + this.highlightDiff,startY- this.highlightDiff);
-		context.lineTo(startX+this.w+ this.highlightDiff,startY+this.h + this.highlightDiff);
-		context.lineTo(startX - this.highlightDiff,startY+this.h + this.highlightDiff);
-		context.lineTo(startX - this.highlightDiff,startY - this.highlightDiff);				
+		context.moveTo(
+			startX - this.highlightDiff + camera.x,
+			startY- this.highlightDiff + camera.y
+		);
+		context.lineTo(
+			startX+this.w + this.highlightDiff + camera.x,
+			startY- this.highlightDiff + camera.y
+		);
+		context.lineTo(
+			startX+this.w+ this.highlightDiff + camera.x,
+			startY+this.h + this.highlightDiff + camera.y
+		);
+		context.lineTo(
+			startX - this.highlightDiff + camera.x,
+			startY+this.h + this.highlightDiff + camera.y
+		);
+		context.lineTo(
+			startX - this.highlightDiff + camera.x,
+			startY - this.highlightDiff + camera.y
+		);				
 		context.closePath();
 		context.stroke();
 		context.fill();
@@ -258,11 +273,11 @@ AnimatedRectangle.prototype.draw = function(context)
 	context.fillStyle = this.backgroundColor;
 	
 	context.beginPath();
-	context.moveTo(startX ,startY);
-	context.lineTo(startX + this.w, startY);
-	context.lineTo(startX + this.w, startY + this.h);
-	context.lineTo(startX, startY + this.h);
-	context.lineTo(startX, startY);
+	context.moveTo(startX + camera.x ,startY + camera.y);
+	context.lineTo(startX + this.w + camera.x, startY + camera.y);
+	context.lineTo(startX + this.w + camera.x, startY + this.h + camera.y);
+	context.lineTo(startX + camera.x, startY + this.h + camera.y);
+	context.lineTo(startX + camera.x, startY + camera.y);
 	context.closePath();
 	context.stroke();
 	context.fill();
@@ -270,8 +285,8 @@ AnimatedRectangle.prototype.draw = function(context)
 	if (this.nullPointer)
 	{
 		context.beginPath();
-		context.moveTo(startX ,startY);
-		context.lineTo(startX + this.w, startY + this.h);
+		context.moveTo(startX + camera.x, startY + camera.y);
+		context.lineTo(startX + this.w + camera.x, startY + this.h + camera.y);
 		context.closePath();
 		context.stroke();
 	}
@@ -282,7 +297,7 @@ AnimatedRectangle.prototype.draw = function(context)
 	context.font         = '10px sans-serif';
 	context.textBaseline   = 'middle'; 
 	context.lineWidth = 1;
-	context.fillText(this.label, this.x, this.y); 
+	context.fillText(this.label, this.x + camera.x, this.y + camera.y); 
 	
 	
 	

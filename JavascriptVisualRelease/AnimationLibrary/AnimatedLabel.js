@@ -56,7 +56,7 @@ AnimatedLabel.prototype.centered = function()
 }
 
 
-AnimatedLabel.prototype.draw = function(ctx)
+AnimatedLabel.prototype.draw = function(ctx, camera)
 {
 	if (!this.addedToScene)
 	{
@@ -103,7 +103,7 @@ AnimatedLabel.prototype.draw = function(ctx)
 	    ctx.strokeStyle = "#ffaaaa";
 	    ctx.fillStyle = "#ff0000";
 		ctx.lineWidth = this.highlightDiff;
-		ctx.strokeText(this.label, this.x, this.y);		
+		ctx.strokeText(this.label, this.x + camera.x, this.y + camera.y);		
 		//ctx.fillText(this.label, this.x, this.y);
 	}
 	ctx.strokeStyle = this.labelColor;
@@ -114,22 +114,22 @@ AnimatedLabel.prototype.draw = function(ctx)
 	{
                 if (this.highlightIndex == -1)
                 {
-                    ctx.fillText(this.label, this.x, this.y); 
+                    ctx.fillText(this.label, this.x + camera.x, this.y + camera.y); 
                 }
                 else
                 {
                     var leftStr = this.label.substring(0, this.highlightIndex);
                     var highlightStr = this.label.substring(this.highlightIndex, this.highlightIndex + 1)
                     var rightStr = this.label.substring(this.highlightIndex + 1)
-                    ctx.fillText(leftStr, startingXForHighlight, this.y)
+                    ctx.fillText(leftStr, startingXForHighlight + camera.x, this.y + camera.y)
  	            ctx.strokeStyle = "#FF0000";
 	            ctx.fillStyle = "#FF0000";
-                    ctx.fillText(highlightStr, startingXForHighlight + this.leftWidth, this.y)
+                    ctx.fillText(highlightStr, startingXForHighlight + this.leftWidth + camera.x, this.y + camera.y)
 
 
 	            ctx.strokeStyle = this.labelColor;
 	            ctx.fillStyle = this.labelColor;
-                    ctx.fillText(rightStr, startingXForHighlight + this.leftWidth + this.centerWidth, this.y)
+                    ctx.fillText(rightStr, startingXForHighlight + this.leftWidth + this.centerWidth + camera.x, this.y + camera.y)
 
 
                 }
@@ -140,7 +140,7 @@ AnimatedLabel.prototype.draw = function(ctx)
 		var offset = (this.centering)?  (1.0 - strList.length) / 2.0 : 0;
 		for (var i = 0; i < strList.length; i++)
 		{
-			ctx.fillText(strList[i], this.x, this.y + offset + i * 12);
+			ctx.fillText(strList[i], this.x + camera.x, (this.y + offset + i * 12) + camera.y);
 			//this.textWidth = Math.max(this.textWidth, ctx.measureText(strList[i]).width);
 		}		
 	}

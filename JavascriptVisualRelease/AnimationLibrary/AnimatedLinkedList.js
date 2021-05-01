@@ -238,7 +238,7 @@ AnimatedLinkedList.prototype.getHeight = function()
 	return this.h;
 }
 
-AnimatedLinkedList.prototype.draw = function(context)
+AnimatedLinkedList.prototype.draw = function(context, camera)
 {
 	var startX;
 	var startY;
@@ -252,11 +252,26 @@ AnimatedLinkedList.prototype.draw = function(context)
 		context.fillStyle = "#ff0000";
 		
 		context.beginPath();
-		context.moveTo(startX - this.highlightDiff,startY- this.highlightDiff);
-		context.lineTo(startX+this.w + this.highlightDiff,startY- this.highlightDiff);
-		context.lineTo(startX+this.w+ this.highlightDiff,startY+this.h + this.highlightDiff);
-		context.lineTo(startX - this.highlightDiff,startY+this.h + this.highlightDiff);
-		context.lineTo(startX - this.highlightDiff,startY - this.highlightDiff);				
+		context.moveTo(
+			startX - this.highlightDiff + camera.x,
+			startY- this.highlightDiff + camera.y
+		);
+		context.lineTo(
+			startX+this.w + this.highlightDiff + camera.x,
+			startY- this.highlightDiff + camera.y	
+		);
+		context.lineTo(
+			startX+this.w+ this.highlightDiff + camera.x,
+			startY+this.h + this.highlightDiff + camera.y
+		);
+		context.lineTo(
+			startX - this.highlightDiff + camera.x,
+			startY+this.h + this.highlightDiff + camera.y
+		);
+		context.lineTo(
+			startX - this.highlightDiff + camera.x,
+			startY - this.highlightDiff + camera.y
+		);				
 		context.closePath();
 		context.stroke();
 		context.fill();
@@ -265,11 +280,11 @@ AnimatedLinkedList.prototype.draw = function(context)
 	context.fillStyle = this.backgroundColor;
 	
 	context.beginPath();
-	context.moveTo(startX ,startY);
-	context.lineTo(startX + this.w, startY);
-	context.lineTo(startX + this.w, startY + this.h);
-	context.lineTo(startX, startY + this.h);
-	context.lineTo(startX, startY);
+	context.moveTo(startX + camera.x ,startY + camera.y);
+	context.lineTo(startX + this.w + camera.x, startY + camera.y);
+	context.lineTo(startX + this.w + camera.x, startY + this.h + camera.y);
+	context.lineTo(startX + camera.x, startY + this.h + camera.y);
+	context.lineTo(startX + camera.x, startY + camera.y);
 	context.closePath();
 	context.stroke();
 	context.fill();
@@ -284,8 +299,8 @@ AnimatedLinkedList.prototype.draw = function(context)
 			startY = this.y + this.h*(1-this.linkPercent)*(i / this.numLabels - 1/2);
 			
 			context.beginPath();
-			context.moveTo(startX ,startY);
-			context.lineTo(startX + this.w, startY);
+			context.moveTo(startX + camera.x ,startY + camera.y);
+			context.lineTo(startX + this.w + camera.x, startY + camera.y);
 			context.closePath();
 			context.stroke();
 		}
@@ -297,8 +312,8 @@ AnimatedLinkedList.prototype.draw = function(context)
 		{
 			startX = this.x + this.w*(1-this.linkPercent)*(i / this.numLabels - 1/2);
 			context.beginPath();
-			context.moveTo(startX ,startY);
-			context.lineTo(startX, startY + this.h);
+			context.moveTo(startX + camera.x ,startY + camera.y);
+			context.lineTo(startX + camera.x, startY + this.h + camera.y);
 			context.closePath();
 			context.stroke();
 		}			
@@ -311,11 +326,11 @@ AnimatedLinkedList.prototype.draw = function(context)
 
 		
 		context.beginPath();
-		context.moveTo(startX + this.w ,startY);
-		context.lineTo(startX, startY);
+		context.moveTo(startX + this.w + camera.x,startY + camera.y);
+		context.lineTo(startX + camera.x, startY + camera.y);
 		if (this.nullPointer)
 		{	
-			context.lineTo(this.startX + this.w, this.bottom());
+			context.lineTo(this.startX + this.w + camera.x, this.bottom() + camera.y);
 		}
 		context.closePath();
 		context.stroke();		
@@ -326,11 +341,11 @@ AnimatedLinkedList.prototype.draw = function(context)
 		startY = this.top() + this.h * this.linkPercent;
 
 		context.beginPath();
-		context.moveTo(startX + this.w ,startY);
-		context.lineTo(startX, startY);
+		context.moveTo(startX + this.w + camera.x ,startY + camera.y);
+		context.lineTo(startX + camera.x, startY + camera.y);
 		if (this.nullPointer)
 		{	
-			context.lineTo(startX + this.w, this.top());
+			context.lineTo(startX + this.w + camera.x, this.top() + camera.y);
 		}
 		context.closePath();
 		context.stroke();	
@@ -342,11 +357,11 @@ AnimatedLinkedList.prototype.draw = function(context)
 		startY = this.top();
 		
 		context.beginPath();
-		context.moveTo(startX, startY + this.h);
-		context.lineTo(startX, startY);
+		context.moveTo(startX + camera.x, startY + this.h + camera.y);
+		context.lineTo(startX + camera.x, startY + camera.y);
 		if (this.nullPointer)
 		{	
-			context.lineTo(this.right(), startY + this.h);
+			context.lineTo(this.right() + camera.x, startY + this.h + camera.y);
 		}
 		context.closePath();
 		context.stroke();		
@@ -358,11 +373,11 @@ AnimatedLinkedList.prototype.draw = function(context)
 		startY = this.top() ;
 		
 		context.beginPath();
-		context.moveTo(startX, startY + this.h);
-		context.lineTo(startX, startY);
+		context.moveTo(startX + camera.x, startY + this.h + camera.y);
+		context.lineTo(startX + camera.x, startY + camera.y);
 		if (this.nullPointer)
 		{	
-			context.lineTo(this.left(), startY);
+			context.lineTo(this.left() + camera.x, startY + camera.y);
 		}
 		context.closePath();
 		context.stroke();	
@@ -379,7 +394,11 @@ AnimatedLinkedList.prototype.draw = function(context)
 	for (i = 0; i < this.numLabels; i++)
 	{
 		context.fillStyle = this.labelColors[i];
-		context.fillText(this.labels[i], this.labelPosX[i], this.labelPosY[i]); 
+		context.fillText(
+			this.labels[i],
+			this.labelPosX[i] + camera.x,
+			this.labelPosY[i] + camera.y
+		); 
 	}
 }
 

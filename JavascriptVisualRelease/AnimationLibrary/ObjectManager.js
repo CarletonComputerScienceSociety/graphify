@@ -42,6 +42,18 @@
 //           an assert-like structure that can be turned off for production?)
 //       2.  Refactor this code so that it uses the same object syntax (with 
 //           prototypes) as te rest of the code.  (low priority)
+
+class Camera {
+	constructor(x, y, width, height) {
+		this.x = x;
+		this.y = y;
+		this.width = width;
+		this.height = height;
+	}
+}
+
+let canvasCamera = null;
+
 function ObjectManager()
 {
 	this.Nodes = [];
@@ -55,6 +67,7 @@ function ObjectManager()
 	this.height = 0;
 	this.statusReport = new AnimatedLabel(-1, "XXX", false, 30);
 	this.statusReport.x = 30;
+	canvasCamera = new Camera(200, 50, this.width, this.height);
 	
 	this.draw = function()
 	{
@@ -71,7 +84,7 @@ function ObjectManager()
 		{
 			if (this.Nodes[i] != null && !this.Nodes[i].highlighted && this.Nodes[i].addedToScene && !this.Nodes[i].alwaysOnTop)
 			{
-				this.Nodes[i].draw(this.ctx);	
+				this.Nodes[i].draw(this.ctx, canvasCamera);	
 			}
 		}
 		for (i = 0; i < this.Nodes.length; i++)
@@ -79,7 +92,7 @@ function ObjectManager()
 			if (this.Nodes[i] != null && (this.Nodes[i].highlighted && !this.Nodes[i].alwaysOnTop) && this.Nodes[i].addedToScene)
 			{
 				this.Nodes[i].pulseHighlight(this.framenum);
-				this.Nodes[i].draw(this.ctx);	
+				this.Nodes[i].draw(this.ctx, canvasCamera);	
 			}
 		}
 		
@@ -88,7 +101,7 @@ function ObjectManager()
 			if (this.Nodes[i] != null && this.Nodes[i].alwaysOnTop && this.Nodes[i].addedToScene)
 			{
 				this.Nodes[i].pulseHighlight(this.framenum);
-				this.Nodes[i].draw(this.ctx);	
+				this.Nodes[i].draw(this.ctx, canvasCamera);	
 			}
 		}
 		
@@ -102,15 +115,14 @@ function ObjectManager()
 					if (this.Edges[i][j].addedToScene)
 					{
 						this.Edges[i][j].pulseHighlight(this.framenum);	
-						this.Edges[i][j].draw(this.ctx);	
+						this.Edges[i][j].draw(this.ctx, canvasCamera);	
 					}
 					
 				}
 				
 			}
 		}
-		this.statusReport.draw(this.ctx);
-		
+		this.statusReport.draw(this.ctx, new Camera(0, 0, this.width, this.height));	
 	}
 	
 	this.update = function ()

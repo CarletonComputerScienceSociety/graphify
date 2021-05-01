@@ -124,7 +124,7 @@ AnimatedBTreeNode.prototype.bottom = function()
 }
 
 
-AnimatedBTreeNode.prototype.draw = function(context)
+AnimatedBTreeNode.prototype.draw = function(context, camera)
 {
 	var startX;
 	var startY;
@@ -142,11 +142,11 @@ AnimatedBTreeNode.prototype.draw = function(context)
 		context.fillStyle = "#ff0000";
 		
 		context.beginPath();
-		context.moveTo(startX - this.highlightDiff,startY- this.highlightDiff);
-		context.lineTo(startX+this.getWidth() + this.highlightDiff,startY- this.highlightDiff);
-		context.lineTo(startX+this.getWidth() + this.highlightDiff,startY+this.nodeHeight + this.highlightDiff);
-		context.lineTo(startX - this.highlightDiff,startY+this.nodeHeight + this.highlightDiff);
-		context.lineTo(startX - this.highlightDiff,startY - this.highlightDiff);				
+		context.moveTo(startX - this.highlightDiff + camera.x, startY- this.highlightDiff + camera.y);
+		context.lineTo(startX+this.getWidth() + this.highlightDiff + camera.x, startY- this.highlightDiff + camera.y);
+		context.lineTo(startX+this.getWidth() + this.highlightDiff + camera.x, startY+this.nodeHeight + this.highlightDiff + camera.y);
+		context.lineTo(startX - this.highlightDiff + camera.x, startY +this.nodeHeight + this.highlightDiff + camera.y);
+		context.lineTo(startX - this.highlightDiff + camera.x, startY - this.highlightDiff + camera.y);				
 		context.closePath();
 		context.stroke();
 		context.fill();
@@ -156,11 +156,11 @@ AnimatedBTreeNode.prototype.draw = function(context)
 	context.fillStyle = this.backgroundColor;
 	
 	context.beginPath();
-	context.moveTo(startX ,startY);
-	context.lineTo(startX + this.getWidth(), startY);
-	context.lineTo(startX + this.getWidth(), startY + this.nodeHeight);
-	context.lineTo(startX, startY + this.nodeHeight);
-	context.lineTo(startX, startY);
+	context.moveTo(startX + camera.x ,startY + camera.y);
+	context.lineTo(startX + this.getWidth() + camera.x, startY + camera.y);
+	context.lineTo(startX + this.getWidth() + camera.x, startY + this.nodeHeight + camera.y);
+	context.lineTo(startX + camera.x, startY + this.nodeHeight + camera.y);
+	context.lineTo(startX + camera.x, startY + camera.y);
 	context.closePath();
 	context.stroke();
 	context.fill();
@@ -175,7 +175,7 @@ AnimatedBTreeNode.prototype.draw = function(context)
 		var labely = this.y			   
 
 		context.fillStyle = this.labelColors[i];
-		context.fillText(this.labels[i], labelx, labely); 
+		context.fillText(this.labels[i], labelx + camera.x, labely + camera.y); 
 	}	
 }
 
