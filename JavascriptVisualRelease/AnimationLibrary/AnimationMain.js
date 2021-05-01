@@ -398,37 +398,7 @@ function initCanvas()
 
 	canvas.width = width;
 	canvas.height = height;
-	
-	
-	
-	tableEntry = document.createElement("td");
-	txtNode = document.createTextNode(" w:"); 
-	tableEntry.appendChild(txtNode);
-	controlBar.appendChild(tableEntry);
-
-
-	widthEntry = addControlToAnimationBar("Text", canvas.width);
-	widthEntry.size = 4;
-	widthEntry.onkeydown = this.returnSubmit(widthEntry, animationManager.changeSize.bind(animationManager), 4, true);
-
-	
-	tableEntry = document.createElement("td");
-	txtNode = document.createTextNode("       h:"); 
-	tableEntry.appendChild(txtNode);
-	controlBar.appendChild(tableEntry);
-	
-	heightEntry = addControlToAnimationBar("Text", canvas.height);
-	heightEntry.onkeydown = this.returnSubmit(heightEntry, animationManager.changeSize.bind(animationManager), 4, true);
-
-//	heightEntry.size = 4;
-	sizeButton = addControlToAnimationBar("Button", "Change Canvas Size");
-	
-	sizeButton.onclick = animationManager.changeSize.bind(animationManager) ;
-	
-
-        swapButton = addControlToAnimationBar("Button", "Move Controls");
-        swapButton.onclick = swapControlDiv;	
-	
+		
 	
 	animationManager.addListener("AnimationStarted", this, animStarted);
 	animationManager.addListener("AnimationEnded", this, this.animEnded);
