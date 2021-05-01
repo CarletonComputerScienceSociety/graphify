@@ -75,19 +75,15 @@ BST.prototype.init = function(am, w, h)
 
 BST.prototype.addControls =  function()
 {
-	this.insertField = addControlToAlgorithmBar("Text", "");
-	this.insertField.onkeydown = this.returnSubmit(this.insertField,  this.insertCallback.bind(this), 4);
-	this.insertButton = addControlToAlgorithmBar("Button", "Insert");
+	this.inputField = addControlToAlgorithmBar("Text", "");
+	this.inputField.onkeydown = this.returnSubmit(this.inputField,  this.insertCallback.bind(this), 4);
+  this.insertButton = addControlToAlgorithmBar("Button", "Insert");
 	this.insertButton.onclick = this.insertCallback.bind(this);
-	this.deleteField = addControlToAlgorithmBar("Text", "");
-	this.deleteField.onkeydown = this.returnSubmit(this.deleteField,  this.deleteCallback.bind(this), 4);
-	this.deleteButton = addControlToAlgorithmBar("Button", "Delete");
+  this.deleteButton = addControlToAlgorithmBar("Button", "Delete");
 	this.deleteButton.onclick = this.deleteCallback.bind(this);
-	this.findField = addControlToAlgorithmBar("Text", "");
-	this.findField.onkeydown = this.returnSubmit(this.findField,  this.findCallback.bind(this), 4);
-	this.findButton = addControlToAlgorithmBar("Button", "Find");
+  this.findButton = addControlToAlgorithmBar("Button", "Find");
 	this.findButton.onclick = this.findCallback.bind(this);
-	this.printButton = addControlToAlgorithmBar("Button", "Print");
+  this.printButton = addControlToAlgorithmBar("Button", "Print");
 	this.printButton.onclick = this.printCallback.bind(this);
 }
 
@@ -99,24 +95,24 @@ BST.prototype.reset = function()
 
 BST.prototype.insertCallback = function(event)
 {
-	var insertedValue = this.insertField.value;
+	var insertedValue = this.inputField.value;
 	// Get text value
 	insertedValue = insertedValue.substring(0, 4);
 	if (insertedValue != "")
 	{
 		// set text value
-		this.insertField.value = "";
+		this.inputField.value = "";
 		this.implementAction(this.insertElement.bind(this), insertedValue);
 	}
 }
 
 BST.prototype.deleteCallback = function(event)
 {
-	var deletedValue = this.deleteField.value;
+	var deletedValue = this.inputField.value;
 	if (deletedValue != "")
 	{
 		deletedValue = this.normalizeNumber(deletedValue, 4);
-		this.deleteField.value = "";
+		this.inputField.value = "";
 		this.implementAction(this.deleteElement.bind(this),deletedValue);		
 	}
 }
@@ -187,8 +183,8 @@ BST.prototype.printTreeRec = function(tree)
 BST.prototype.findCallback = function(event)
 {
 	var findValue;
-	findValue = this.normalizeNumber(this.findField.value, 4);
-	this.findField.value = "";
+	findValue = this.normalizeNumber(this.inputField.value, 4);
+	this.inputField.value = "";
 	this.implementAction(this.findElement.bind(this),findValue);						
 }
 
@@ -396,7 +392,7 @@ BST.prototype.treeDelete = function(tree, valueToDelete)
 		}
 		else
 		{
-			this.cmd("SetText",  0, valueToDelete + " == " + tree.data + ".  Found node to delete");									
+			this.cmd("SetText",  0, valueToDelete + " == " + tree.data + ".  Found node to delete");
 		}
 		this.cmd("Step");
 		this.cmd("SetHighlight",  tree.graphicID, 0);
@@ -419,7 +415,7 @@ BST.prototype.treeDelete = function(tree, valueToDelete)
 				{
 					treeRoot = null;
 				}
-				this.resizeTree();				
+				this.resizeTree();		
 				this.cmd("Step");
 				
 			}
@@ -591,7 +587,6 @@ BST.prototype.resizeTree = function()
 		this.animateNewPositions(this.treeRoot);
 		this.cmd("Step");
 	}
-	
 }
 
 BST.prototype.setNewPositions = function(tree, xPosition, yPosition, side)
@@ -651,22 +646,18 @@ function BSTNode(val, id, initialX, initialY)
 
 BST.prototype.disableUI = function(event)
 {
-	this.insertField.disabled = true;
+	this.inputField.disabled = true;
 	this.insertButton.disabled = true;
-	this.deleteField.disabled = true;
 	this.deleteButton.disabled = true;
-	this.findField.disabled = true;
 	this.findButton.disabled = true;
 	this.printButton.disabled = true;
 }
 
 BST.prototype.enableUI = function(event)
 {
-	this.insertField.disabled = false;
+	this.inputField.disabled = false;
 	this.insertButton.disabled = false;
-	this.deleteField.disabled = false;
 	this.deleteButton.disabled = false;
-	this.findField.disabled = false;
 	this.findButton.disabled = false;
 	this.printButton.disabled = false;
 }
