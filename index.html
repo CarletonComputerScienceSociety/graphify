@@ -3,71 +3,32 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  		
-  <link rel="stylesheet" href="JavascriptVisualRelease/visualizationPageStyle.css">
-			
-			
-  <!-- jqueury stuff.  Only used for the animation speed slider. -->
-  <link rel="stylesheet" href="JavascriptVisualRelease/ThirdParty/jquery-ui-1.8.11.custom.css">
-      
-  <script src="JavascriptVisualRelease/ThirdParty/jquery-1.5.2.min.js"></script>
-  <script src="JavascriptVisualRelease/ThirdParty/jquery-ui-1.8.11.custom.min.js"></script>
-      
-  <!-- Javascript for the actual visualization code -->
-  <script type = "text/javascript" src = "JavascriptVisualRelease/AnimationLibrary/CustomEvents.js"> </script>
-  <script type = "text/javascript" src = "JavascriptVisualRelease/AnimationLibrary/UndoFunctions.js"> </script>
-  <script type = "text/javascript" src = "JavascriptVisualRelease/AnimationLibrary/AnimatedObject.js"> </script>
-  <script type = "text/javascript" src = "JavascriptVisualRelease/AnimationLibrary/AnimatedLabel.js"> </script>
-  <script type = "text/javascript" src = "JavascriptVisualRelease/AnimationLibrary/AnimatedCircle.js"> </script>
-  <script type = "text/javascript" src = "JavascriptVisualRelease/AnimationLibrary/AnimatedRectangle.js"> </script>
-  <script type = "text/javascript" src = "JavascriptVisualRelease/AnimationLibrary/AnimatedLinkedList.js"> </script>
-  <script type = "text/javascript" src = "JavascriptVisualRelease/AnimationLibrary/HighlightCircle.js"> </script>
-  <script type = "text/javascript" src = "JavascriptVisualRelease/AnimationLibrary/Line.js"> </script>
-  <script type = "text/javascript" src = "JavascriptVisualRelease/AnimationLibrary/ObjectManager.js"> </script>
-  <script type = "text/javascript" src = "JavascriptVisualRelease/AnimationLibrary/AnimationMain.js"> </script>
-  <script type = "text/javascript" src = "JavascriptVisualRelease/AlgorithmLibrary/Algorithm.js"> </script>
-  <script type = "text/javascript" src = "JavascriptVisualRelease/AlgorithmLibrary/SimpleStack.js"> </script> 
+  <link rel="stylesheet" href="styles/index.css">
 
   <link rel="stylesheet" href="styles/styles.css">
   <title>Data Structure Visualizations</title>
 </head>
-<body onload="init();" class="VisualizationMainPage">
-  <h1>Data Structures</h1>
-  <hr>
-  <h2>Simple Stack</h2>
-  <hr>
-		
-		<div id = "container">
-			
-			<div id="header">  
-				<h1>Simple Stack</h1>
-			</div>
-			
-			<div id = "mainContent"> 
-				
-				<div id = "algoControlSection">
-					<!-- Table for buttons to control specific animation (insert/find/etc) -->
-					<!-- (filled in by javascript code specific to the animtion) -->
-					<table id="AlgorithmSpecificControls"> </table> 
-				</div>
-				
-					<!-- Drawing canvas where all animation is done.  Note:  can be resized in code -->
-									
-				<canvas id="canvas" width="1000" height="500"></canvas>
-				
-				<div id = "generalAnimationControlSection">
-					<!-- Table for buttons to control general animation (play/pause/undo/etc) -->
-					<!-- (filled in by javascript code, specifically AnimationMain.js)  -->
+<body class="VisualizationMainPage">
+  <div class="title">
+    <div>
+      <p>COMP2402</p>
+      <p>Abstract Data Types and Algorithms</p>
+      <p>Data Structure Visualization</p>
+    </div>
+  </div>
+  <div class="information">
+      <h1>Information</h1>
+      <p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla ultrices semper elit sed pulvinar. Curabitur suscipit arcu nec convallis lobortis. In euismod pulvinar felis, elementum eleifend libero maximus ut. Mauris euismod sem nisl, sed ornare augue bibendum vel. Suspendisse potenti. Ut vestibulum lacinia mi eu lobortis. Vestibulum in justo vel augue ullamcorper placerat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin eget accumsan lacus. Nulla sollicitudin convallis malesuada. Sed vestibulum nisl ipsum, quis rhoncus felis tempus ut. Aliquam sed leo condimentum, faucibus neque id, elementum odio. Mauris leo ligula, sollicitudin in commodo convallis, malesuada at tortor.
 
-					<table id="GeneralAnimationControls">  </table>		
-				</div>
-				
-			</div> <!-- mainContent -->
-			
-			<div id="footer">  
-				<p><a href="./JavascriptVisualRelease/Algorithms.html">Algorithm Visualizations</a></p>
-			</div>
+Integer tempor porttitor massa vel rhoncus. Nunc eu pellentesque nibh. Quisque consectetur velit sapien. Phasellus est tortor, euismod in consequat ut, congue quis mauris. Quisque consequat mi ipsum, et dapibus purus auctor ut. Maecenas fermentum egestas metus. Interdum et malesuada fames ac ante ipsum primis in faucibus.
 
-		</div><!-- container -->
-	</body>
+Suspendisse risus sapien, tincidunt sed est sit amet, tristique pretium nulla. Nullam rutrum lacus quis dolor lacinia, ac pellentesque nunc facilisis. Phasellus non lectus pretium, ultrices lectus commodo, fermentum tellus. Quisque eget mi accumsan sapien rhoncus dictum a vel odio. Mauris a elit vel urna blandit ornare. Phasellus vehicula lacinia tellus venenatis scelerisque. Integer vestibulum venenatis facilisis. Nam quis quam auctor, aliquam odio eget, volutpat libero. Aliquam erat volutpat. Nunc blandit nulla ut magna ultrices, in tincidunt arcu aliquet. In hac habitasse platea dictumst. Nunc eleifend interdum leo, sit amet sagittis sem rutrum ac.
+
+Curabitur ullamcorper justo nibh, eget commodo tellus bibendum at. Vestibulum pharetra pellentesque diam. Sed ut lorem quis risus bibendum sodales non id velit. Nunc nec fermentum tortor. Phasellus ut quam arcu. Ut elementum ex nunc, vitae viverra nisl consectetur nec. Vestibulum sit amet vehicula velit, sed commodo mi. Fusce et gravida dolor.
+
+Nulla quis dui sit amet arcu venenatis feugiat. Cras urna tortor, hendrerit nec nulla vitae, lobortis sagittis sem. Ut aliquet tincidunt sem sed volutpat. Etiam eu metus metus. Praesent tellus mi, consequat ut pharetra interdum, tincidunt ut elit. Nunc sed vulputate nunc. Sed et pulvinar nulla, eget vulputate est. Cras leo purus, sodales sed posuere sed, efficitur a quam.
+      </p>
+  </div>
+</body>
 </html>

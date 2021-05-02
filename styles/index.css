@@ -1,0 +1,38 @@
+html,body{
+    margin:0;    
+    height:100%;
+}
+.title{
+    background: url('../images/background.jpg') fixed;
+    font-size: 3em;
+    text-transform: uppercase;
+    text-align: center;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.title p{
+    margin:1em;
+}
+h1{
+    text-align: center;
+    margin:0;
+    padding:1em;
+}
+.information{
+    background: url('../images/info.png') fixed;
+    margin:0;
+    padding:0;
+    height:100%;
+}
+
+.information p{
+    background-color: white;
+    opacity: 0.75;
+    width:90%;
+    margin:auto;
+    padding:1em;
+    border-radius:10px;
+}
