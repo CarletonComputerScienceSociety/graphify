@@ -50,7 +50,7 @@ nav {
 	left: 0;
 	padding-top: 1em;
 	overflow-x: hidden;
-	background-color: #2a9d8f;
+	background-color: rgb(73, 188, 233);
 	text-align: center;
 	width: 0;
 	transition: 0.5s;
@@ -117,6 +117,9 @@ nav {
 	text-align: left; /* this overrides the text-align: center on the body element. */
 }	
 	
+.footer a{
+	color:black;
+}
 	
 .VisualizationMainPage #footer  A:visited { text-decoration:none;
         color:ffcc33; 
@@ -186,10 +189,11 @@ EM {text-decoration: bold;}
 	}
 	nav {
 		text-align: left;
+		position:absolute;
+		top:0;
 	}
 	#hamburger {
 		position: relative;
-		top: 1em;
 		left: 1em;
 		padding: 0;
 		display: inline;
