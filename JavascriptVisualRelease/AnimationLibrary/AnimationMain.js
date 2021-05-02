@@ -222,7 +222,7 @@ function doPlayPause()
 	paused = !paused;
 	if (paused)
 	{
-		playPauseBackButton.setAttribute("value", "play");
+		playPauseBackButton.firstChild.setAttribute("class", "fas fa-play");
 		if (skipBackButton.disabled == false)
 		{
 			stepBackButton.disabled = false;		
@@ -231,7 +231,7 @@ function doPlayPause()
 	}
 	else
 	{
-		playPauseBackButton.setAttribute("value", "pause");	
+		playPauseBackButton.firstChild.setAttribute("class", "fas fa-pause");
 	}
 	animationManager.SetPaused(paused);
 }
@@ -268,17 +268,30 @@ function addControlToAnimationBar(type,name,containerType)
         element.setAttribute("type", type);
         element.setAttribute("value", name);
 	
-	
-	var tableEntry = document.createElement("td");
-	
-	tableEntry.appendChild(element);
-	
     var controlBar = document.getElementById("GeneralAnimationControls");
 	
     //Append the element in page (in span).
-    controlBar.appendChild(tableEntry);
+    controlBar.appendChild(element);
 	return element;
 	
+}
+
+function addFAButtonToAnimationBar(faClass){
+	var element = document.createElement("button");
+	
+    element.setAttribute("type", "button");
+    element.setAttribute("class", "btn btn-outline-dark");
+	element.innerHTML = `<i class="${faClass}"></i>`;
+		
+    var controlBar = document.getElementById("GeneralAnimationControls");
+	
+    //Append the element in page (in span).
+	if(!controlBar.firstElementChild){
+		let newDiv = document.createElement("div");
+		controlBar.appendChild(newDiv);
+	}
+    controlBar.firstElementChild.appendChild(element);
+	return element;
 }
 
 
@@ -287,54 +300,29 @@ function initCanvas()
 	canvas =  document.getElementById("canvas");
 	objectManager = new ObjectManager();
 	animationManager = new AnimationManager(objectManager);
-	
-	skipBackButton = addControlToAnimationBar("Button", "Skip Back");
+	skipBackButton = addFAButtonToAnimationBar("fas fa-fast-backward");
 	skipBackButton.onclick = animationManager.skipBack.bind(animationManager);
-	stepBackButton = addControlToAnimationBar("Button", "Step Back");
+	stepBackButton = addFAButtonToAnimationBar("fas fa-step-backward");
 	stepBackButton.onclick = animationManager.stepBack.bind(animationManager);
-	playPauseBackButton = addControlToAnimationBar("Button", "Pause");
+	playPauseBackButton = addFAButtonToAnimationBar("fas fa-pause");
 	playPauseBackButton.onclick = doPlayPause ;
-	stepForwardButton = addControlToAnimationBar("Button", "Step Forward");
+	stepForwardButton = addFAButtonToAnimationBar("fas fa-step-forward");
 	stepForwardButton.onclick = animationManager.step.bind(animationManager) ;
-	skipForwardButton = addControlToAnimationBar("Button", "Skip Forward");
+	skipForwardButton = addFAButtonToAnimationBar("fas fa-fast-forward");
 	skipForwardButton.onclick = animationManager.skipForward.bind(animationManager);
 	
 	
 	var element = document.createElement("div");
-	element.setAttribute("display", "inline-block");		
-	element.setAttribute("float", "left");		
-
 	
-	var tableEntry = document.createElement("td");
-	
+	var tableEntry = document.createElement("div");
 	
     var controlBar = document.getElementById("GeneralAnimationControls");
 	
-	
-	
-	var newTable = document.createElement("table");
 
-	var midLevel = document.createElement("tr");
-	var bottomLevel = document.createElement("td");
-	midLevel.appendChild(bottomLevel);
-	bottomLevel.appendChild(element);
-	newTable.appendChild(midLevel);	
-	
-	
-	
-	midLevel = document.createElement("tr");
-	bottomLevel = document.createElement("td");
-	bottomLevel.align = "center";
 	var txtNode = document.createTextNode("Animation Speed"); 
-	midLevel.appendChild(bottomLevel);
-	bottomLevel.appendChild(txtNode);
-	newTable.appendChild(midLevel);	
-
+	tableEntry.appendChild(txtNode);
 	
-	
-	tableEntry.appendChild(newTable);
-	
-	
+	tableEntry.appendChild(element);
 	
     //Append the element in page (in span).
     controlBar.appendChild(tableEntry);
@@ -350,7 +338,15 @@ function initCanvas()
 	{
 		speed = parseInt(speed);
 	}
-	
+	var spanMinus = document.createElement("span");
+	var iMinus = document.createElement("i");
+	iMinus.setAttribute("class", "fas fa-minus-circle");
+	spanMinus.appendChild(iMinus);
+	spanMinus.style.left = "-30px";
+	spanMinus.style.top = "-7px";
+	spanMinus.style.position = "absolute";
+	element.appendChild(spanMinus);
+
 	$(element).slider({
 					  animate: true,
 					  value: speed,
@@ -368,6 +364,16 @@ function initCanvas()
 	
 	element.setAttribute("style", "width:200px");
 
+
+	var spanPlus = document.createElement("span");
+	var iPlus = document.createElement("i");
+	iPlus.setAttribute("class", "fas fa-plus-circle");
+	spanPlus.appendChild(iPlus);
+	spanPlus.style.left = "210px";
+	spanPlus.style.top = "-7px";
+
+	spanPlus.style.position = "absolute";
+	element.appendChild(spanPlus);
 
 
 	var width=getCookie("VisualizationWidth");

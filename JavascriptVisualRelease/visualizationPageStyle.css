@@ -29,7 +29,7 @@ body {
 
 .VisualizationMainPage #algoControlSection
 {
-	background: #DDEEDD; 
+	background: rgba(124, 160, 174, 0.25)!important;; 
 	color:#000000; 
 
 }
@@ -37,14 +37,59 @@ body {
 
 .VisualizationMainPage #generalAnimationControlSection
 {
-	background: #DDEEDD; 
+	background: rgb(124, 160, 174, 0.25)!important;; 
 	color:#006600; 
 
 }
-
+/* code snippet inspired from https://www.w3schools.com/howto/tryit.asp?filename=tryhow_js_sidenav_push*/
+nav {
+	height: 100%;
+	position: fixed;
+	z-index: 3;
+	top: 0;
+	left: 0;
+	padding-top: 1em;
+	overflow-x: hidden;
+	background-color: rgb(73, 188, 233);
+	text-align: center;
+	width: 0;
+	transition: 0.5s;
+  }
+  nav li{
+	  list-style-type: none;
+  }
+  nav a {
+	color: #f2f2f2;
+	text-decoration: none;
+	font-size: 1.5em;
+	display: block;
+	padding: 8px 8px 8px 32px;
+  }
+  
+  h6 {
+	font-size: 0.8em;
+  }
+  
+  #hamburger {
+	text-decoration: none;
+	width: auto;
+	font-size: 2em;
+	display: block;
+	padding: 1em;
+	color:black;
+  }
+  
+  #closebtn {
+	position: absolute;
+	top: 0;
+	right: 25px;
+	margin-left: 50px;
+	z-index:10;
+  }
 .VisualizationMainPage  #header { 
-	background: #006633; 
-	color:#ffCC33;
+	background: rgb(124, 160, 174); 
+	color:black;
+	text-align:center;
 	padding: 0 10px 0 20px; 
   
 } 
@@ -72,6 +117,9 @@ body {
 	text-align: left; /* this overrides the text-align: center on the body element. */
 }	
 	
+.footer a{
+	color:black;
+}
 	
 .VisualizationMainPage #footer  A:visited { text-decoration:none;
         color:ffcc33; 
@@ -79,7 +127,7 @@ body {
 
 .VisualizationMainPage #footer A:link {
     text-decoration:none;
-	color:#ffCC33;
+	color:black;
 }
 
 
@@ -102,18 +150,54 @@ body {
 	background: #FFFFFF;
 	color:#006633
 }
-
+body{
+	background-color: rgb(124, 160, 174)!important;
+}
 
 
 .VisualizationMainPage #footer { 
 	padding: 0 10px;
-    background: #006633; 
 	color:#ffcc33;
 } 
 .VisualizationMainPage #footer p {
 	margin: 0; 	padding: 10px 0; 
 }
 
+#GeneralAnimationControls{
+	display:grid;
+	grid-template-columns: auto;
+	padding:1em;
+}
+#GeneralAnimationControls > div{
+	margin-left:2em;
+}
+#footer{
+	background-color:rgb(124, 160, 174)!important;
+	color: black;
+	width:100%;
+}
+#canvas{
+	width:100%;
+	margin:auto;
+}
+
 EM {text-decoration: bold;}
+
+@media all and (min-width:768px){
+	#GeneralAnimationControls{
+		grid-template-columns: auto auto;
+	}
+	nav {
+		text-align: left;
+		position:absolute;
+		top:0;
+	}
+	#hamburger {
+		position: relative;
+		left: 1em;
+		padding: 0;
+		display: inline;
+	}
+}
 
 	
